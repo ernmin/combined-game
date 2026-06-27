@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import json
 
 def transform_and_process_row(row_data, headers, row_index):
     """
@@ -19,21 +20,17 @@ def transform_and_process_row(row_data, headers, row_index):
     collapsed_df = collapsed_df.dropna(subset=["ID"])
     collapsed_df = collapsed_df[['ID', 'Link', 'Question', 'Timestamp']]
 
-
-    collapsed_df.to_json('user_table.json', orient='records', indent=4)
+    with open('user_table.json', 'r') as file:
+        user_table_list = json.load(file)
     
-    # 2. Example Data Cleaning/Transformation:
-    # Let's say we clean up string spacing, fill missing values, or cast types
-    # (Modify this block to fit your specific transformation goals)
-    # for col in df.columns:
-    #     if df[col].dtype == 'object':
-    #         df[col] = df[col].astype(str).str.strip()
-            
-    # # 3. Format into your "usable form" (e.g., converting to a clean dictionary)
-    # usable_record = df.iloc[0].to_dict()
+    user_table_new = collapsed_df.to_dict(orient='records')
+    # print(user_table_new)
+    user_table_join = user_table_list + user_table_new
+    with open('user_table.json', 'w') as file:
+        json.dump(user_table_join, file, indent=4)
+    # collapsed_df.to_json('./user_table.json', orient='records', indent=4)
+    #CHANGE TO APPEND TO THE USER_TABLE INSTEAD
     
-    # print("✅ [Processor] Data successfully transformed into usable dictionary format:")
-    # print(usable_record)
 
     
     # 4. Trigger your actual core business logic here
