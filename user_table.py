@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 
-def transform_and_process_row(row_data, headers, row_index):
+def transform_and_process_row(row_data, headers, row_index, cell_value):
     """
     This function accepts the raw data from server.py,
     transforms it into a usable structure, and processes it.
@@ -20,6 +20,23 @@ def transform_and_process_row(row_data, headers, row_index):
     collapsed_df = collapsed_df.dropna(subset=["ID"])
     collapsed_df = collapsed_df[['ID', 'Link', 'Question', 'Timestamp']]
 
+    if cell_value == '1':
+        add_rows(collapsed_df)
+
+    elif cell_value == '0':
+        delete_rows(collapsed_df)
+
+    
+    # 4. Trigger your actual core business logic here
+    # (e.g., saving to a database, triggering a local script, sending an email, etc.)
+    # execute_business_logic(usable_record)
+
+def add_rows(collapsed_df):
+    """
+    Put whatever your python script is supposed to 'check' or do with the data here.
+    """
+    print("🚀 [Processor] Running analysis workflow on the cleaned record...")
+
     with open('user_table.json', 'r') as file:
         user_table_list = json.load(file)
     
@@ -28,25 +45,14 @@ def transform_and_process_row(row_data, headers, row_index):
     user_table_join = user_table_list + user_table_new
     with open('user_table.json', 'w') as file:
         json.dump(user_table_join, file, indent=4)
-    # collapsed_df.to_json('./user_table.json', orient='records', indent=4)
-    #CHANGE TO APPEND TO THE USER_TABLE INSTEAD
     
-
-    
-    # 4. Trigger your actual core business logic here
-    # (e.g., saving to a database, triggering a local script, sending an email, etc.)
-    # execute_business_logic(usable_record)
-
-def execute_business_logic(cleaned_data):
-    """
-    Put whatever your python script is supposed to 'check' or do with the data here.
-    """
-    print("🚀 [Processor] Running analysis workflow on the cleaned record...")
-    
-    #ADD ROW TO JSON FILE
-    #FROM PANDAS DF TO LIST OF DICTS
-
-    pass
-
-
-#WHAT JSON FILE DOES TABLEAU USE TO POPULATE IT
+def delete_rows(collapsed_df):
+    with open('user_table.json', 'r') as file:
+        user_table_list = json.load(file)
+    user_table_delete = collapsed_df.to_dict(orient='records')
+    user_table_new = [row for row in user_table_list if row['Link'] != user_table_delete[0]['Link']]
+    # for row in user_table_list:
+    #     if row['Link'] == user_table_delete[0]['Link']:
+    #         user_table_list.remove(row)
+    with open('user_table.json', 'w') as file:
+        json.dump(user_table_new, file, indent=4)

@@ -13,6 +13,7 @@ def handle_sheets_update():
     row_index = payload.get('approvedRowIndex')
     headers = payload.get('headers', [])
     row_data = payload.get('rowData', [])
+    cell_value = payload.get('cellValue')
     
     if not row_data:
         return jsonify({"status": "no data received"}), 400, response_headers
@@ -25,7 +26,8 @@ def handle_sheets_update():
     print(df)
     print("----------------------------------------------------\n")
     
-    transform_and_process_row(row_data, headers, row_index)
+    transform_and_process_row(row_data, headers, row_index, cell_value)
+    
     # Example: Accessing a specific column from the approved row
     # if "Email" in df.columns:
     #     user_email = df["Email"].iloc[0]
