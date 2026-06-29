@@ -14,10 +14,11 @@ function sendRowToServer(e) {
   // 3. Check if the value typed is exactly '1'
   if (sheet.getName() === targetSheetName && 
       range.getColumn() === approvedColumn && 
-      String(e.value) === "1") {
+      (String(e.value) === "1") || (String(e.value) === "0")) {
     
     var rowNumber = range.getRow();
     var lastColumn = sheet.getLastColumn();
+    var cellValue = String(e.value)
     
     // Fetch the header row (to give Python the column names)
     var headers = sheet.getRange(1, 1, 1, lastColumn).getValues()[0];
@@ -29,7 +30,8 @@ function sendRowToServer(e) {
       "sheetName": sheet.getName(),
       "approvedRowIndex": rowNumber,
       "headers": headers,
-      "rowData": approvedRowData
+      "rowData": approvedRowData,
+      "cellValue": cellValue
     };
     
     var options = {
