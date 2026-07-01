@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from user_table import transform_and_process_row
-
+from return_entries import return_entries
 import pandas as pd
 
 app = Flask(__name__)
@@ -40,12 +40,18 @@ def handle_sheets_update():
     return jsonify({"status": "success", "processed_row": row_index}), 200, response_headers
 
 @app.route('/entries', methods=['GET']) # SHOULD THIS BE GET OR POST?
-def get_entires():
+def get_entries():
     response_headers = {"ngrok-skip-browser-warning": "true"}
     received_var = request.args.get('requestedUser')
     print(f"Heroku sent me this variable: {received_var}")
+
+    json_filtered_rows = return_entries(received_var)
+    print(type(json_filtered_rows))
+    print(json_filtered_rows)
+    return json_filtered_rows
+
     # if request.method == 'GET':
-    return received_var
+    # return received_var
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import requests
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -24,11 +25,14 @@ def rows():
     except requests.exceptions.RequestException as error:
         print(f"Error: {error}")
 
+    df = pd.DataFrame(response.json())
+    html_table = df.to_html(index=False)
+
 
     return jsonify({
             "status": "success",
             # "serverPayload": local_file_data.get('result', 'No match found')
-            "result": user_to_find
+            "result": html_table
         })
 #     url = 'https://stereo-estrogen-valid.ngrok-free.dev/get_entries'
 

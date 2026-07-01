@@ -312,4 +312,44 @@ button:hover {
     display: flex;
     gap: 15px; /* Adjust this value to change the spacing */
     align-items: center;
+    margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle depth */
+  overflow: hidden; /* Clips contents to the border radius */
+  border: 1px solid #ffffff; /* Optional: border around the table */
+  border-radius: 12px;
+}
+
+/* Dark blue header */
+th {
+  background-color: #1070c4; 
+  color: #ffffff;
+  padding: 12px;
+  text-align: left;
+}
+
+th, td {
+  border-bottom: 1px solid #ffffff; /* Horizontal gridlines */
+  border-right: 1px solid #ffffff;  /* Vertical gridlines */
+  padding: 12px;
+}
+
+th:last-child, td:last-child {
+  border-right: none;
+}
+
+tr:last-child th, tr:last-child td {
+  border-bottom: none;
+}
+
+/* Light blue for table data cells */
+
+a {
+  color: #ffffff
 }
