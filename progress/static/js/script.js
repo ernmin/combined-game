@@ -33,10 +33,15 @@ function hyper_link() {
         // Get the plain text URL from the cell
         const url = secondCell.textContent.trim();
         
+        new_url = change_link(url);
+        
         // Ensure the cell is not empty before creating the link
-        if (url) {
+        if (new_url != url) {
             // Rewrite innerHTML as a hyperlink
-            secondCell.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+            secondCell.innerHTML = `<img src="${new_url}">`;
+        }
+        else {
+            secondCell.innerHTML  = `<a href="${url}" target="_blank">${url}</a>`;
         }
     }
     const links = document.querySelectorAll('a');
@@ -45,6 +50,15 @@ function hyper_link() {
     a_tag.textContent = `Photo ${index + 1}`;
 });
 });
+}
+
+function change_link(url) {
+    const match = url.match(/(?:\/d\/|id=)([\w-]+)/);
+    if (match && match[1]) {
+        const fileID = match[1];
+        return `https://drive.google.com/thumbnail?id=${fileID}&sz=w250`
+    }
+    return url
 }
 
 async function ID_hyper_link() {
