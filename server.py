@@ -39,5 +39,14 @@ def handle_sheets_update():
 
     return jsonify({"status": "success", "processed_row": row_index}), 200, response_headers
 
+@app.route('/entries', methods=['GET']) # SHOULD THIS BE GET OR POST?
+def get_entires():
+    response_headers = {"ngrok-skip-browser-warning": "true"}
+    received_var = request.args.get('requestedUser')
+    print(f"Heroku sent me this variable: {received_var}")
+    # if request.method == 'GET':
+    return received_var
+
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

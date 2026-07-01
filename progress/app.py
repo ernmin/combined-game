@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import requests
 
 app = Flask(__name__)
 
@@ -9,12 +10,25 @@ def index():
 
 @app.route("/rows", methods=['POST'])
 def rows():
-    client_data = request.get_json()
-    user_to_find = client_data.get('requestedUser', '')
+    site_data = request.get_json()
+    user_to_find = site_data.get('requestedUser', '') # the second argument is the fallback
+
+    ngrok_url = "https://stereo-estrogen-valid.ngrok-free.dev/entries"
+    payload = site_data
+    try:
+        response = requests.get(ngrok_url, params=payload, timeout=5)
+        if response.status_code == 200:
+            print("Success!")
+            print(response.json())
+
+    except requests.exceptions.RequestException as error:
+        print(f"Error: {error}")
+
+
     return jsonify({
             "status": "success",
             # "serverPayload": local_file_data.get('result', 'No match found')
-            "result": 'Test Success'
+            "result": user_to_find
         })
 #     url = 'https://stereo-estrogen-valid.ngrok-free.dev/get_entries'
 
