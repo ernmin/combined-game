@@ -1,25 +1,42 @@
 document.querySelector('#userIDForm').addEventListener('submit', (event) => {
     event.preventDefault();
-    ID_hyper_link()
+    ID_hyper_link();
     // submitID();
 })
 
-
 function submitID() {
     const userID = document.querySelector('#getID').value;
+
+    if (userID == '') {
+        return fetch('/rows', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ requestedUser: 'ALLzxc' })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('displayResult').innerHTML = data.result;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
     // document.getElementById('displayResult').innerText = userID;
-    return fetch('/rows', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ requestedUser: userID })
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('displayResult').innerHTML = data.result;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+    else {
+        return fetch('/rows', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ requestedUser: userID })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('displayResult').innerHTML = data.result;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 }
 
 function hyper_link() {

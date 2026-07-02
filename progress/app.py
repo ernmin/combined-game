@@ -37,6 +37,9 @@ def rows():
 #     url = 'https://stereo-estrogen-valid.ngrok-free.dev/get_entries'
 
 
+
+
+
 # app.py and progress file will be deployed on heroku
 # Once server and ngrok url is live, a user can access the site on heroku to query my server.
 # Since the JSON file is being updated on my computer (server), it will just return the latest information to the heroku deployed app

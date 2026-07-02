@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from user_table import transform_and_process_row
-from return_entries import return_entries
+from return_entries import return_entries, return_all_entries
 import pandas as pd
 
 app = Flask(__name__)
@@ -45,10 +45,14 @@ def get_entries():
     received_var = request.args.get('requestedUser')
     print(f"Heroku sent me this variable: {received_var}")
 
-    json_filtered_rows = return_entries(received_var)
-    print(type(json_filtered_rows))
-    print(json_filtered_rows)
-    return json_filtered_rows
+    if received_var == 'ALLzxc':
+        json_rows = return_all_entries()
+        return json_rows
+    else:
+        json_filtered_rows = return_entries(received_var)
+        print(type(json_filtered_rows))
+        print(json_filtered_rows)
+        return json_filtered_rows
 
     # if request.method == 'GET':
     # return received_var
