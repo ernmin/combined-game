@@ -338,6 +338,7 @@ th, td {
   border-bottom: 1px solid #ffffff; /* Horizontal gridlines */
   border-right: 1px solid #ffffff;  /* Vertical gridlines */
   padding: 12px;
+  text-align: center
 }
 
 th:last-child, td:last-child {
