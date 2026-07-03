@@ -45,6 +45,7 @@ function hyper_link() {
     rows.forEach(row => {
     // Select the second cell (index 1, as JavaScript is 0-indexed)
     const secondCell = row.cells[1];
+    secondCell.classList.add('second-cell')
     
     if (secondCell) {
         // Get the plain text URL from the cell
@@ -73,7 +74,8 @@ function change_link(url) {
     const match = url.match(/(?:\/d\/|id=)([\w-]+)/);
     if (match && match[1]) {
         const fileID = match[1];
-        return `https://drive.google.com/thumbnail?id=${fileID}&sz=w250`
+        // return `https://drive.google.com/thumbnail?id=${fileID}&sz=w250`
+        return `https://lh3.googleusercontent.com/d/${fileID}`
     }
     return url
 }

@@ -12,7 +12,7 @@ body {
 }
 
 .content-wrapper {
-    width: 100vw;       /* Uses 100% of the Viewport Width */
+    width: 100%;       /* Uses 100% of the Viewport Width */
     min-height: 100vh;  /* Optional: Makes it at least as tall as the screen */
     
     /* If you want the content INSIDE to be centered but the 
@@ -71,8 +71,14 @@ button:hover {
     margin: 20px;
 }
 
+#displayResult {
+  display: flex;
+  justify-content: center; 
+
+}
+
 table {
-  width: 100%;
+  width: 55%;
   border-collapse: separate;
   border-spacing: 0;
   font-family: sans-serif;
@@ -84,13 +90,16 @@ table {
 
 /* Dark blue header */
 th {
+  border-bottom: 1px solid #ffffff; /* Horizontal gridlines */
+  border-right: 1px solid #ffffff;
   background-color: #1070c4; 
   color: #ffffff;
-  padding: 12px;
-  text-align: left;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
 }
 
-th, td {
+td {
   border-bottom: 1px solid #ffffff; /* Horizontal gridlines */
   border-right: 1px solid #ffffff;  /* Vertical gridlines */
   padding: 12px;
@@ -105,6 +114,17 @@ tr:last-child th, tr:last-child td {
   border-bottom: none;
 }
 
+.second-cell {
+  width: 100%;
+  height: auto;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+
 /* Light blue for table data cells */
 
 a {
@@ -116,4 +136,15 @@ a {
     overflow-x: auto; /* Adds the horizontal scrollbar */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   }
+  table {
+  width: 90%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle depth */
+  overflow: hidden; /* Clips contents to the border radius */
+  border: 1px solid #ffffff; /* Optional: border around the table */
+  border-radius: 12px;
 }
+}
+
