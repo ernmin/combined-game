@@ -66,7 +66,7 @@ button:hover {
 
 button:disabled {
   background-color: #6a7077;
-  /* cursor: not-allowed; */
+  cursor: not-allowed;
 }
 
 .form-container {
