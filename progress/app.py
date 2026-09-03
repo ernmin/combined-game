@@ -20,20 +20,24 @@ def rows():
         response = requests.get(ngrok_url, params=payload, timeout=5)
         if response.status_code == 200:
             print("Success!")
-            print(response.json())
+            df = pd.DataFrame(response.json())
+            html_table = df.to_html(index=False)
+            return jsonify({
+                    "status": "success",
+                    # "serverPayload": local_file_data.get('result', 'No match found')
+                    "result": html_table
+                })
+        elif response.status_code == 429:
+            return jsonify({
+                                "status": "success",
+                                # "serverPayload": local_file_data.get('result', 'No match found')
+                                "result": "You have clicked too many times, try again in a minute"
+                            })
 
     except requests.exceptions.RequestException as error:
         print(f"Error: {error}")
 
-    df = pd.DataFrame(response.json())
-    html_table = df.to_html(index=False)
-
-
-    return jsonify({
-            "status": "success",
-            # "serverPayload": local_file_data.get('result', 'No match found')
-            "result": html_table
-        })
+    
 #     url = 'https://stereo-estrogen-valid.ngrok-free.dev/get_entries'
 
 

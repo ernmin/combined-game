@@ -64,6 +64,11 @@ button:hover {
     background-color: #2ea043;
 }
 
+button:disabled {
+  background-color: #6a7077;
+  /* cursor: not-allowed; */
+}
+
 .form-container {
     display: flex;
     gap: 15px; /* Adjust this value to change the spacing */

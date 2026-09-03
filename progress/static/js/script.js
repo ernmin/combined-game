@@ -14,8 +14,23 @@ function submitID() {
             body: JSON.stringify({ requestedUser: 'ALLzxc' })
         })
         .then(response => response.json())
+        // async response => {
+        //     const data = await response.json();
+        //     if (!response.ok) {
+        //         // Captures the 429 response here
+        //         throw new Error(data.message || 'Something went wrong');
+        //     }
+        //     return data;
+        // })
         .then(data => {
             document.getElementById('displayResult').innerHTML = data.result;
+            if (data.result == 'You have clicked too many times, try again in a minute'){
+                const disableButton = document.querySelector('button');
+                disableButton.disabled = true;
+                setTimeout(() => {
+                disableButton.disabled = false;
+                }, 5000);
+            }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -32,6 +47,13 @@ function submitID() {
         .then(response => response.json())
         .then(data => {
             document.getElementById('displayResult').innerHTML = data.result;
+            if (data.result == 'You have clicked too many times, try again in a minute'){
+                const disableButton = document.querySelector('button');
+                disableButton.disabled = true;
+                setTimeout(() => {
+                disableButton.disabled = false;
+                }, 5000);
+            }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -54,6 +76,10 @@ function hyper_link() {
         new_url = change_link(url);
         
         // Ensure the cell is not empty before creating the link
+        // if (new_url == 'You clicked too much'){
+        //     return
+        // }
+        // else 
         if (new_url != url) {
             // Rewrite innerHTML as a hyperlink
             secondCell.innerHTML = `<img src="${new_url}">`;

@@ -1,9 +1,18 @@
 from flask import Flask, request, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_limiter.errors import RateLimitExceeded
 from user_table import transform_and_process_row
 from return_entries import return_entries, return_all_entries
 import pandas as pd
 
 app = Flask(__name__)
+limiter = Limiter(
+    key_func=get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
+)
 
 @app.route('/webhook', methods=['POST'])
 def handle_sheets_update():
@@ -40,6 +49,7 @@ def handle_sheets_update():
     return jsonify({"status": "success", "processed_row": row_index}), 200, response_headers
 
 @app.route('/entries', methods=['GET']) # SHOULD THIS BE GET OR POST?
+@limiter.limit("1 per second")
 def get_entries():
     response_headers = {"ngrok-skip-browser-warning": "true"}
     received_var = request.args.get('requestedUser')
@@ -47,15 +57,13 @@ def get_entries():
 
     if received_var == 'ALLzxc':
         json_rows = return_all_entries()
+        print(json_rows)
         return json_rows
     else:
         json_filtered_rows = return_entries(received_var)
         print(type(json_filtered_rows))
         print(json_filtered_rows)
         return json_filtered_rows
-
-    # if request.method == 'GET':
-    # return received_var
 
 
 if __name__ == '__main__':
